@@ -1,0 +1,108 @@
+[{
+  "_id": {
+    "$oid": "6341c5a641b578e56df40582"
+  },
+  "username": "alice",
+  "password": "alice123",
+  "firstName": "Alice",
+  "lastName": "Wonderland",
+  "email": "alice@wonderland.com",
+  "headerImage": null,
+  "accountType": "PERSONAL",
+  "maritalStatus": "SINGLE",
+  "biography": null,
+  "dateOfBirth": null,
+  "joined": {
+    "$date": {
+      "$numberLong": "1665254822227"
+    }
+  },
+  "location": {
+    "latitude": 0,
+    "longitude": 0
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6341d6eacef5840fa9d5426e"
+  },
+  "username": "bob",
+  "password": "bob321",
+  "firstName": "Bob",
+  "lastName": "Hope",
+  "email": "bob@hope.com",
+  "accountType": "PERSONAL",
+  "maritalStatus": "SINGLE",
+  "joined": {
+    "$date": {
+      "$numberLong": "1665259242258"
+    }
+  },
+  "location": {
+    "latitude": 0,
+    "longitude": 0
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6341d72dcef5840fa9d54271"
+  },
+  "username": "charlie",
+  "password": "charlie432",
+  "firstName": "Charlie",
+  "lastName": "Brown",
+  "email": "charlie@peanuts.com",
+  "accountType": "PERSONAL",
+  "maritalStatus": "SINGLE",
+  "joined": {
+    "$date": {
+      "$numberLong": "1665259309113"
+    }
+  },
+  "location": {
+    "latitude": 0,
+    "longitude": 0
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6341d743cef5840fa9d54273"
+  },
+  "username": "nasa",
+  "password": "nasa321",
+  "firstName": "NASA",
+  "lastName": "Gov",
+  "email": "space@nasa.gov",
+  "accountType": "PERSONAL",
+  "maritalStatus": "SINGLE",
+  "joined": {
+    "$date": {
+      "$numberLong": "1665259331937"
+    }
+  },
+  "location": {
+    "latitude": 0,
+    "longitude": 0
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6341d75ccef5840fa9d54275"
+  },
+  "username": "spacex",
+  "password": "spacex420",
+  "firstName": "SpaceX",
+  "email": "elon@spacex.com",
+  "accountType": "PERSONAL",
+  "maritalStatus": "SINGLE",
+  "joined": {
+    "$date": {
+      "$numberLong": "1665259356770"
+    }
+  },
+  "location": {
+    "latitude": 0,
+    "longitude": 0
+  },
+  "__v": 0
+}]
