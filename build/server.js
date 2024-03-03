@@ -17,6 +17,7 @@ const MessageController_1 = __importDefault(require("./controllers/MessageContro
 const MessageDao_1 = __importDefault(require("./daos/MessageDao"));
 const LikeController_1 = __importDefault(require("./controllers/LikeController"));
 const auth_controller_1 = __importDefault(require("./controllers/auth-controller"));
+const DislikeController_1 = __importDefault(require("./controllers/DislikeController"));
 const cors = require('cors');
 var app = (0, express_1.default)();
 const session = require("express-session");
@@ -49,6 +50,7 @@ const tuitController = new TuitController_1.default(app, new TuitDao_1.default()
 const followController = new FollowsController_1.default(app, new FollowsDao_1.default());
 const messageController = new MessageController_1.default(app, new MessageDao_1.default());
 const likeController = LikeController_1.default.getInstance(app);
+const disLikeController = DislikeController_1.default.getInstance(app);
 (0, auth_controller_1.default)(app);
 app.get('/', (req, res) => res.send('Welcome to Foundation of Software Engineering!!!!'));
 app.get('/hello', (req, res) => res.send('Welcome to Foundation of Software Engineering!'));

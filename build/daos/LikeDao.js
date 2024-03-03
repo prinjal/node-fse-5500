@@ -16,31 +16,30 @@ const LikeModel_1 = __importDefault(require("../mongoose/LikeModel"));
 class LikeDao {
     constructor() {
         this.findAllUsersThatLikedTuitCount = (tid) => __awaiter(this, void 0, void 0, function* () {
-            LikeModel_1.default
-                .find({ tuit: tid })
-                .count();
+            return yield LikeModel_1.default.count({ tuit: tid });
         });
         this.findAllUsersThatLikedTuit = (tid) => __awaiter(this, void 0, void 0, function* () {
-            LikeModel_1.default
+            return yield LikeModel_1.default
                 .find({ tuit: tid })
                 .populate("likedBy")
                 .exec();
         });
         this.findAllTuitsLikedByUser = (uid) => __awaiter(this, void 0, void 0, function* () {
-            LikeModel_1.default
+            return yield LikeModel_1.default
                 .find({ likedBy: uid })
                 .populate("tuit")
                 .exec();
         });
-        this.userLikesTuit = (uid, tid) => __awaiter(this, void 0, void 0, function* () { return LikeModel_1.default.create({ tuit: tid, likedBy: uid }); });
-        this.userUnlikesTuit = (uid, tid) => __awaiter(this, void 0, void 0, function* () { return LikeModel_1.default.deleteOne({ tuit: tid, likedBy: uid }); });
+        this.userLikesTuit = (uid, tid) => __awaiter(this, void 0, void 0, function* () {
+            return yield LikeModel_1.default.create({ tuit: tid, likedBy: uid });
+        });
+        this.userUnlikesTuit = (uid, tid) => __awaiter(this, void 0, void 0, function* () {
+            return yield LikeModel_1.default.deleteOne({ tuit: tid, likedBy: uid });
+        });
+        this.findUserLikesTuit = (uid, tid) => __awaiter(this, void 0, void 0, function* () {
+            return yield LikeModel_1.default.findOne({ tuit: tid, likedBy: uid });
+        });
     }
 }
 exports.default = LikeDao;
 LikeDao.likeDao = null;
-LikeDao.getInstance = () => {
-    if (LikeDao.likeDao === null) {
-        LikeDao.likeDao = new LikeDao();
-    }
-    return LikeDao.likeDao;
-};

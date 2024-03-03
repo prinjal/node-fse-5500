@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const DislikeDao_1 = __importDefault(require("../daos/DislikeDao"));
 const LikeDao_1 = __importDefault(require("../daos/LikeDao"));
 const TuitDao_1 = __importDefault(require("../daos/TuitDao"));
 /**
@@ -33,6 +34,10 @@ const TuitDao_1 = __importDefault(require("../daos/TuitDao"));
  */
 class LikeController {
     constructor() {
+        this.findUserLikesTuit = (req, res) => {
+            LikeController.likeDao.findUserLikesTuit(req.params.uid, req.params.tid)
+                .then(likes => res.json(likes));
+        };
         this.findAllUsersThatLikedTuitCount = (req, res) => LikeController.likeDao.findAllUsersThatLikedTuit(req.params.tid)
             .then(likes => res.json(likes));
         /**
@@ -73,17 +78,25 @@ class LikeController {
         this.userUnlikesTuit = (req, res) => LikeController.likeDao.userUnlikesTuit(req.params.uid, req.params.tid)
             .then(status => res.send(status));
         this.userTogglesTuitLikes = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const uid = req.params.uid;
+            const uid = req.params.userid;
             const tid = req.params.tid;
             const profile = req.session['profile'];
             const userId = uid === "me" && profile ?
                 profile._id : uid;
             try {
+                const userAlreadyDisLikedTuit = yield LikeController.disLikeDao
+                    .findUserDisLikesTuit(userId, tid);
                 const userAlreadyLikedTuit = yield LikeController.likeDao
-                    .userLikesTuit(userId, tid);
+                    .findUserLikesTuit(userId, tid);
+                const howManyDisLikedTuit = yield LikeController.disLikeDao
+                    .findAllUsersThatDisLikedTuitCount(tid);
                 const howManyLikedTuit = yield LikeController.likeDao
                     .findAllUsersThatLikedTuitCount(tid);
                 let tuit = yield LikeController.tuitDao.findTuitsByID(tid);
+                // console.log(userAlreadyDisLikedTuit)
+                // console.log(userAlreadyLikedTuit)
+                // console.log(howManyDisLikedTuit)
+                // console.log(howManyLikedTuit)
                 if (tuit != null) {
                     if (userAlreadyLikedTuit) {
                         yield LikeController.likeDao.userUnlikesTuit(userId, tid);
@@ -91,10 +104,15 @@ class LikeController {
                     }
                     else {
                         yield LikeController.likeDao.userLikesTuit(userId, tid);
+                        if (userAlreadyDisLikedTuit) {
+                            yield LikeController.disLikeDao.userRemovesDislikeTuit(userId, tid);
+                            tuit.stats.dislikes = howManyDisLikedTuit - 1;
+                        }
                         tuit.stats.likes = howManyLikedTuit + 1;
                     }
                     ;
                     yield LikeController.tuitDao.updateLikes(tid, tuit.stats);
+                    tuit = yield LikeController.tuitDao.findTuitsByID(tid);
                 }
                 res.sendStatus(200);
             }
@@ -105,7 +123,8 @@ class LikeController {
     }
 }
 exports.default = LikeController;
-LikeController.likeDao = LikeDao_1.default.getInstance();
+LikeController.likeDao = new LikeDao_1.default();
+LikeController.disLikeDao = new DislikeDao_1.default();
 LikeController.tuitDao = new TuitDao_1.default();
 LikeController.likeController = null;
 /**
